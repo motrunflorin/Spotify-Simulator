@@ -25,10 +25,6 @@ public class Host extends User {
      * @param podcast
      */
     public String addPodcast(final Podcast podcast) {
-        // Initialize the announcements list if it's not initialized
-//        if (podcasts == null) {
-//            podcasts = new ArrayList<>();
-//        }
         if (hasPodcastWithName(podcast.getName())) {
             return getUsername() + " has another podcast with the same name.";
         }
@@ -37,7 +33,6 @@ public class Host extends User {
 
         return getUsername() + " has added new podcast successfully.";
     }
-
 
     /**
      * @param name
@@ -70,7 +65,6 @@ public class Host extends User {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * @param name
      * @param announcementDescription
@@ -90,7 +84,6 @@ public class Host extends User {
         announcements.add(new Announcement(name, announcementDescription));
         return getUsername() + " has successfully added new announcement.";
 
-
     }
 
     /**
@@ -104,7 +97,6 @@ public class Host extends User {
                 ? getUsername() + " has successfully deleted the announcement."
                 : getUsername() + " has no announcement with the given name.";
     }
-
 
     /**
      * @param podcast
@@ -141,7 +133,6 @@ public class Host extends User {
         return announcementNames.size() != announcementNames.stream().distinct().count();
     }
 
-
     public List<Episode> getTopEpisodes() {
         // Get all episodes from all podcasts
         return podcasts.stream()
@@ -171,28 +162,5 @@ public class Host extends User {
         // Combine the strings to form the final result
         return "{" + topEpisodesString + "," + listenersString + "," + podcastsString + "}";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
