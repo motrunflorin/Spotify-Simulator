@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 public final class Admin {
 
     @Getter
@@ -71,7 +70,6 @@ public final class Admin {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * @param podcastInputList
      */
@@ -89,7 +87,6 @@ public final class Admin {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * @return
      */
@@ -98,7 +95,6 @@ public final class Admin {
                 .flatMap(user -> user.getPlaylists().stream())
                 .collect(Collectors.toList());
     }
-
 
     /**
      * @param userList
@@ -137,8 +133,6 @@ public final class Admin {
     public static Host getHost(final String username) {
         return getUserByUsername(hosts, username);
     }
-
-
 
     /**
      * @param newTimestamp
@@ -187,7 +181,6 @@ public final class Admin {
         return name + " has changed status successfully.";
     }
 
-
     /**
      * @return
      */
@@ -198,7 +191,6 @@ public final class Admin {
                 .map(User::getUsername)
                 .collect(Collectors.toList());
     }
-
 
     /**
      * @param name
@@ -237,7 +229,6 @@ public final class Admin {
 
         return "The username " + name + " has been added successfully.";
     }
-
 
     /**
      * @param username
@@ -283,7 +274,6 @@ public final class Admin {
 
         return username + " has added new album successfully.";
     }
-
 
     /**
      * @param username
@@ -465,8 +455,6 @@ public final class Admin {
         return username + " was successfully deleted.";
     }
 
-
-
     /**
      * @return
      */
@@ -598,7 +586,6 @@ public final class Admin {
         host.getPodcasts().remove(podcast);
     }
 
-
     /**
      * @param username
      * @param name
@@ -672,7 +659,6 @@ public final class Admin {
                 })
                 .collect(Collectors.toList());
     }
-
 
     /**
      * @param username
@@ -753,7 +739,6 @@ public final class Admin {
         }
     }
 
-
     /**
      * @param username
      * @return
@@ -769,7 +754,6 @@ public final class Admin {
     public static boolean isArtist(final String username) {
         return artists.stream().anyMatch(artist -> artist.getUsername().equals(username));
     }
-
 
     /**
      * @param username
@@ -787,23 +771,13 @@ public final class Admin {
         return songs.stream().anyMatch(song -> song.getName().equals(name));
     }
 
-//    public static Host getHostByName(String name) {
-//        for (Host host : hosts) {
-//            if (host.getUsername().equals(name)) {
-//                return host;
-//            }
-//        }
-//        return null;
-//    }
-
     public static String wrapped(final String name) {
         if (isHost(name)) {
             Host host = getHost(name);
             return host.tops();
         }
-        // if (isArtist(name))
-        // artist
-        return "something else"; // Modify this method to return an empty result
+
+        return "something else"; 
     }
 
 
