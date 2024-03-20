@@ -81,7 +81,6 @@ public final class CommandRunner {
         return responseNode;
     }
 
-
     /**
      * @param inputCommand
      * @return
@@ -142,7 +141,6 @@ public final class CommandRunner {
         String message = user.forward();
         return createResponseNode(inputCommand, message);
     }
-
 
     /**
      * @param inputCommand
@@ -252,7 +250,6 @@ public final class CommandRunner {
         String message = user.follow();
         return createResponseNode(inputCommand, message);
     }
-
 
     /**
      * @param inputCommand
@@ -442,14 +439,13 @@ public final class CommandRunner {
         return createResponseNode(inputCommand, message);
     }
 
-
-
     /**
      * @param inputCommand
      * @return
      */
     public static ObjectNode deleteUser(final CommandInput inputCommand) {
         String message = Admin.deleteUser(inputCommand.getUsername(), inputCommand.getTimestamp());
+       
         return createResponseNode(inputCommand, message);
     }
 
@@ -460,6 +456,7 @@ public final class CommandRunner {
     public static ObjectNode addPodcast(final CommandInput inputCommand) {
         String message = Admin.addPodcast(inputCommand.getUsername(), inputCommand.getName(),
                 inputCommand.getEpisodes());
+       
         return createResponseNode(inputCommand, message);
     }
 
@@ -485,11 +482,9 @@ public final class CommandRunner {
      */
     public static ObjectNode removePodcast(final CommandInput inputCommand) {
         String message = Admin.removePodcast(inputCommand.getUsername(), inputCommand.getName());
+       
         return createResponseNode(inputCommand, message);
     }
-
-
-
 
     /**
      * @param inputCommand
@@ -530,7 +525,6 @@ public final class CommandRunner {
         return createResponseNode(inputCommand, message);
     }
 
-
     /**
      * @param inputCommand
      * @return
@@ -548,7 +542,6 @@ public final class CommandRunner {
         return objectNode;
     }
 
-
     /**
      * @param inputCommand
      * @return
@@ -557,14 +550,6 @@ public final class CommandRunner {
         List<String> albums = new StatisticsContext<>(new TopAlbumsStrategy())
                 .getTopList(Admin.getAlbums());
 
-//        ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-//        objectNode.put("command", inputCommand.getCommand());
-//        objectNode.put("timestamp", inputCommand.getTimestamp());
-//        objectNode.put("result", JsonNodeFactory.instance.arrayNode().addAll(albums.stream()
-//                .map(JsonNodeFactory.instance::textNode)
-//                .collect(Collectors.toList())));
-//
-//        return objectNode;
         return generateResultForAdmin(inputCommand, albums);
     }
 
@@ -575,18 +560,9 @@ public final class CommandRunner {
     public static ObjectNode getTop5Artists(final CommandInput inputCommand) {
         List<String> artists = new StatisticsContext<>(new TopArtistsStrategy())
                 .getTopList(Admin.getArtists());
-
-//        ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-//        objectNode.put("command", inputCommand.getCommand());
-//        objectNode.put("timestamp", inputCommand.getTimestamp());
-//        objectNode.put("result", JsonNodeFactory.instance.arrayNode().addAll(artists.stream()
-//                .map(JsonNodeFactory.instance::textNode)
-//                .collect(Collectors.toList())));
-//
-//        return objectNode;
+       
         return generateResultForAdmin(inputCommand, artists);
     }
-
 
     /**
      * @param inputCommand
@@ -594,16 +570,9 @@ public final class CommandRunner {
      */
     public static ObjectNode getAllUsers(final CommandInput inputCommand) {
         List<String> users = Admin.getAllUsers();
-
-//        ObjectNode objectNode = OBJECT_MAPPER.createObjectNode();
-//        objectNode.put("command", inputCommand.getCommand());
-//        objectNode.put("timestamp", inputCommand.getTimestamp());
-//        objectNode.put("result", OBJECT_MAPPER.valueToTree(users));
-//
-//        return objectNode;
+       
         return generateResultForAdmin(inputCommand, users);
     }
-
 
     /**
      * @param inputCommand
@@ -611,16 +580,9 @@ public final class CommandRunner {
      */
     public static ObjectNode getOnlineUsers(final CommandInput inputCommand) {
         List<String> onlineUsers = Admin.getOnlineUsers();
-
-//        ObjectNode objectNode = OBJECT_MAPPER.createObjectNode();
-//        objectNode.put("command", inputCommand.getCommand());
-//        objectNode.put("timestamp", inputCommand.getTimestamp());
-//        objectNode.put("result", OBJECT_MAPPER.valueToTree(onlineUsers));
-//
-//        return objectNode;
+       
         return generateResultForAdmin(inputCommand, onlineUsers);
     }
-
 
     private static ObjectNode generateResultForUser(final CommandInput inputCommand, String result) {
         ObjectNode objectNode = OBJECT_MAPPER.createObjectNode();
@@ -643,10 +605,4 @@ public final class CommandRunner {
 
         return objectNode;
     }
-
-
-
-
-
-
 }
