@@ -1,9 +1,6 @@
-# Proiect GlobalWaves  - Etapa 2
+# Project GlobalWaves  - Stage 2
 
 <div align="center"><img src="https://tenor.com/view/listening-to-music-spongebob-gif-8009182.gif" width="300px"></div>
-
-#### Assignment Link: [https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1)
-
 
 ## Skel Structure
 
@@ -16,5 +13,3 @@
         to the out.txt file. Thus, you can compare this result with ref.
 * input/ - contains the tests and library in JSON format
 * ref/ - contains all reference output for the tests in JSON format
-
-<div align="center"><img src="https://tenor.com/view/homework-time-gif-24854817.gif" width="500px"></div>
