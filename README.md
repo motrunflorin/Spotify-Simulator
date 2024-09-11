@@ -187,3 +187,92 @@ Select from list one of the options obtained from the last search if it generate
       1.Successfully selected {track_name}.
       2.Please conduct a search before making a selection.
       3.The selected ID is too high.
+
+Example input for select:
+```json
+{
+    "command": "select",
+    "username": "alice22",
+    "timestamp": 15,
+    "itemNumber": 1
+}
+```
+Example output for select:
+```json
+{
+    "command" : "select",
+    "user" : "alice22",
+    "timestamp" : 15,
+    "message" : "Successfully selected Stairway to Heaven."
+}
+```
+## Player commands
+### Load
+This command can be issued immediately after selecting a song, playlist, or podcast. It plays the playlist or song from the beginning, and in the case of a podcast, it resumes from where it left off in the last played episode.
+
+#### Possible messages
+      1.Playback loaded successfully.
+      2.Please select a source before attempting to load.
+      3.You can't load an empty audio collection!
+      
+Example input for load:
+```json
+{
+    "command": "load",
+    "username": "alice22",
+    "timestamp": 20
+}
+```
+Example output for load:
+```json
+{
+   "command" : "load",
+   "user" : "alice22",
+   "timestamp" : 20,
+   "message" : "Playback loaded successfully."
+}
+```
+> **Note:** This command can only be executed after the user has issued the select command.
+
+### PlayPause
+
+This command toggles the player between play and pause states. If the player is currently in play mode, the playPause command will switch it to pause mode. Conversely, if the player is in pause mode, the playPause command will switch it to play mode.
+
+#### Possible messages
+      1.Playback paused successfully.
+      2.Playback resumed successfully.
+      3.Please load a source before attempting to pause or resume playback.
+      
+Example input for playPause:
+```json
+{
+    "command": "playPause",
+    "username": "alice22",
+    "timestamp": 30
+}
+```
+Example output for playPause:
+```json
+{
+    "command" : "playPause",
+    "user" : "alice22",
+    "timestamp" : 30,
+    "message" : "Playback paused successfully."
+}
+```
+> **Note:** This command can only be executed after the user has issued the load command.
+
+### Repeat
+
+Initially, repeat is in the state where nothing is repeated. Depending on the type of content currently being played, the repeat command cycles through different states. Essentially, from state 0 it transitions to state 1, from state 1 to state 2, and from state 2 back to state 0, with the effective state depending on the type of content being played by the player at that moment. Thus, we have the following cases:
+      - If we are playing something from a playlist, the states are:
+            - 0 - no repeat
+            - 1 - repeat all → after finishing all the songs in the list, it starts again with the first song
+            - 2 - repeat current song → after finishing the current song, it starts it again
+      - If we are playing a song from the library or a podcast, the states are:
+            - 0 - no repeat
+            - 1 - repeat once → after finishing the current file, it plays it one more time
+            - 2 - repeat infinite → plays the current file endlessly
+
+
+
