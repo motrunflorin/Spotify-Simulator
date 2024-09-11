@@ -274,6 +274,234 @@ Initially, repeat is in the state where nothing is repeated. Depending on the ty
             - 0 - no repeat
             - 1 - repeat once → after finishing the current file, it plays it one more time
             - 2 - repeat infinite → plays the current file endlessly
+            
+#### Possible messages
+      1.Repeat mode changed to {repeat_state}.
+      2.Please load a source before setting the repeat status.
+
+Example input for repeat:
+```json
+{
+    "command": "repeat",
+    "username": "alice22",
+    "timestamp": 31
+}
+```
+Example output for repeat:
+```json
+{
+    "command" : "repeat",
+    "user" : "alice22",
+    "timestamp" : 31,
+    "message" : "Repeat mode changed to repeat once."
+}
+```
+> **Note:** This command can only be executed after the user has issued the load command.
+
+### Shuffle
+
+> **Note:** The shuffle command can only be used when listening to a playlist.
+
+When something is loaded into the player, it plays the tracks in order. To play in a different order, the shuffle command is used, which cycles through two states. For a playlist played in shuffle mode, the order in which the tracks are played is determined using the seed specified in the command. Essentially, if we have 10 tracks, we will consider having IDs from 0 to 9 in this order and shuffle them using the Random class and the provided seed. The new vector represents the order in which the tracks will be played if shuffle is active.
+
+Assuming we are on the k-th track in the playlist (where k represents the indices of the tracks given in the order from the input), we have 2 cases:
+
+      1.If shuffle is disabled, the next track will be the k+1-th track, provided repeat is disabled.
+      2.If shuffle is enabled, we look at the shuffled index vector, find where the current track index k is in the list, and select the ID that follows k in that shuffled list as the index for the next track in the current playlist. 
+
+#### Possible messages
+      1.Shuffle function activated successfully.
+      2.Shuffle function deactivated successfully.
+      3.The loaded source is not a playlist.
+      4.Please load a source before using the shuffle function.
+
+Example input for shuffle:
+```json
+{
+    "command": "shuffle",
+    "username": "bob35",
+    "timestamp": 850,
+    "seed": 1024
+}
+```
+Example output for shuffle:
+```json
+{
+    "command" : "shuffle",
+    "user" : "bob35",
+    "timestamp" : 850,
+    "message" : "Shuffle function activated successfully."
+}
+```
+> **Note:** This command can only be executed after the user has issued the load command.
+
+### Forward/Backward
+
+The forward and backward commands can only be executed when the user is listening to a podcast. These commands allow the user to advance or rewind by 90 seconds. If less than 90 seconds have passed and backward is executed, the player remains at the beginning of the current episode. If there are less than 90 seconds remaining until the end of the episode and forward is executed, the player automatically starts the next episode from the beginning.
+
+#### Possible messages
+      1.Skipped forward successfully.
+      2.The loaded source is not a podcast.
+      3.Please load a source before skipping forward.
+      4.Rewound successfully.
+      5.Please select a source before rewinding.
+
+> **Note:** This command can only be executed after the user has issued the load command.
+
+Example input for forward:
+```json
+{
+    "command" : "forward",
+    "user" : "bob35",
+    "timestamp" : 1050
+}
+```
+
+Example output for forward:
+```json
+{
+    "command" : "forward",
+    "user" : "bob35",
+    "timestamp" : 1050,
+    "message" : "Please load a source before skipping forward."
+}
+```
+Example input for backward:
+```json
+{
+    "command": "backward",
+    "username": "bob35",
+    "timestamp": 1390
+}
+```
+Example output for backward:
+```json
+{
+    "command" : "backward",
+    "user" : "bob35",
+    "timestamp" : 1390,
+    "message" : "Rewound successfully."
+}
+```
+
+### Like
+
+This command can only be executed if the player is currently playing a song. The user can like the current song, and if they have already liked it, they can withdraw their like. This forms a list of liked songs, which can be checked using another command.
+
+#### Possible messages
+      1.Like registered successfully.
+      2.Unlike registered successfully.
+      3.Please load a source before liking or unliking.
+      4.Loaded source is not a song.
+
+Example input for like:
+```json
+{
+    "command": "like",
+    "username": "bob35",
+    "timestamp": 205
+}
+```
+Example output for like:
+```json
+{
+    "command" : "like",
+    "user" : "bob35",
+    "timestamp" : 205,
+    "message" : "Like registered successfully."
+}
+```
+> **Note:** This command can only be executed after the user has issued the load command.
+
+### Next
+
+When the next command is executed, the player moves to the next track, considering its current state (shuffle status, repeat status). If it reaches the end of a playlist/podcast or the end of a song played from the library (when only one song is playing), and the repeat condition specifies that nothing should be repeated, then the player will pause after the playlist/podcast has finished and will remain without any loaded source to interact with.
+
+#### Possible messages
+      1.Skipped to next track successfully. The current track is {track_name}.
+      2.Please load a source before skipping to the next track.
+
+> **Note:** This command can only be executed after the user has issued the load command.
+
+> **Note:** If after issuing next there are no more tracks to play, the following message will be displayed: Please load a source before skipping to the next track.
+
+Example input for next:
+```json
+{
+    "command": "next",
+    "username": "bob35",
+    "timestamp": 590
+}
+```
+Example output for next:
+```json
+{
+    "command" : "next",
+    "user" : "bob35",
+    "timestamp" : 590,
+    "message" : "Skipped to next track successfully. The current track is Under Pressure."
+}
+```
+### Prev
+
+When pressing prev, we can have the following situations:
+
+      - The player jumps to the beginning of the audio file if at least one second has passed from its content.
+      - If no seconds have passed from the current audio file, the player skips to the previous audio file.
+      - If the player is at the first song in the playlist, the first episode of the podcast, or in a song from the library, the current content is replayed from the beginning.
+
+#### Possible messages
+      1.Returned to previous track successfully. The current track is {track_name}.
+      2.Please load a source before returning to the previous track.
+
+Example input for prev:
+```json
+{
+    "command": "prev",
+    "username": "bob35",
+    "timestamp": 710
+}
+```
+Example output for prev:
+```json
+{
+    "command" : "prev",
+    "user" : "bob35",
+    "timestamp" : 710,
+    "message" : "Returned to previous track successfully. The current track is Start Me Up."
+}
+```
+> **Note:**
+
+>       - If this command is executed, the player starts playing the content, even if it was previously in the paused state.
+>       - This command can only be executed after the user has given the load command.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
