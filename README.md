@@ -90,6 +90,7 @@ Example input for a podcast:
 ### Search bar
 
 The search bar is used to search the library for a specific song, playlist, or podcast based on various filters:
+
       - Songs:
             - by name → Checks if the song's name starts with the specified text in the filter.
             - by album → Checks if the song belongs to the specified album.
@@ -106,4 +107,29 @@ The search bar is used to search the library for a specific song, playlist, or p
             - by owner → Checks if the podcast was created by the specified creator.
 
 For each type of search, at least one field will be specified. The order in which results are obtained depends on the position of the content in the list of those elements (i.e., in the list of songs, the list of podcasts, or the lists of playlists for each user).
+
+### Music player
+
+To play different audio files, we need a player. It can play songs from the library or from a playlist, running them sequentially. Podcasts are initially played from the first episode, with episodes played one after another. Each time playback returns to a podcast, it resumes from the episode and the exact moment within the episode where it last left off. Episodes are specified in order in the input.
+
+### User
+
+Our platform has multiple users. At this stage, they can interact with the search bar, the player, and create and manage playlists. Each user has a unique username, so for each command related to a user, their username will be specified.
+
+Example input for a user:
+```json
+{
+    "username": "alice22",
+    "age": 28,
+    "city": "Los Angeles"
+}
+```
+      ## Timestamp
       
+To simulate the real-time aspect of the application, commands have a field called "timestamp" that indicates the second at which they were executed relative to the start of the test (time t0). Each command is executed instantaneously at a specific moment in time. The time is shared among all users and progresses uniformly, regardless of the commands received. Thus, it is not possible to have a command with timestamp "30" for "user1" followed by a command with timestamp "20" for "user2" (a command with timestamp "t" means that all users are at time "t"). Additionally, the simulation must account for what happens between these time moments, such as the state of the current user's player (which track it is on, whether playback has stopped, etc.).
+
+### Seach bar commands
+      ## Search
+Searches are performed based on filters to find a song, playlist, or podcast. Songs are searched within the library, and playlists are only accessible if they belong to the user who issued the command or are public. A list of the top 5 results is returned, and if there are fewer than 5 results, all obtained results are returned. Filters can vary from one search command to another (some fields may be missing), but each search command must specify at least one filter. Additionally, searches are performed from the perspective of the user, meaning that two users can have different results when searching for the same item.
+
+> **Note:** When this command is executed, the source that was loaded in the player is removed. Therefore, after a search, regardless of the results returned, the player will not play anything.
