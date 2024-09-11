@@ -476,32 +476,241 @@ Example output for prev:
 >       - If this command is executed, the player starts playing the content, even if it was previously in the paused state.
 >       - This command can only be executed after the user has given the load command.
 
+###  AddRemoveInPlaylist
 
 
+When this command is executed, the current song is added to the specified playlist. If the song already exists in the playlist, it will be removed from the playlist. Playlists are indexed starting from 1, with the first index corresponding to the first playlist created.
 
+#### Possible messages
+      1.Successfully added to playlist.
+      2.Successfully removed from playlist.
+      3.The loaded source is not a song.
+      4.The specified playlist does not exist.
+      5.Please load a source before adding to or removing from the playlist.
 
+Example input for AddRemoveInPlaylist:
+```json
+{
+    "command": "addRemoveInPlaylist",
+    "username": "alice22",
+    "timestamp": 24,
+    "playlistId": 1
+}
+```
+Example output for AddRemoveInPlaylist:
+```json
+{
+    "command" : "addRemoveInPlaylist",
+    "user" : "alice22",
+    "timestamp" : 24,
+    "message" : "Successfully added to playlist."
+}
+```
+> **Note:** This command can only be executed after the user has issued the load command.
+> **Note:** We guarantee that this command will not be executed by a user on a playlist that is currently loaded in the player.
 
+### Status
 
+The state of the current user's player is displayed.
 
+Example input for status:
+```json
+{
+    "command": "status",
+    "username": "alice22",
+    "timestamp": 59
+}
+```
+Example output for status:
+```json
+{
+    "command" : "status",
+    "user" : "alice22",
+    "timestamp" : 59,
+    "stats" : {
+      "name" : "The Power of Design",
+      "remainedTime" : 3065,
+      "repeat" : "No Repeat",
+      "shuffle" : false,
+      "paused" : false
+    }
+}
+```
+## Playlist commands
 
+### CreatePlaylist
 
+A new empty playlist is created for a user. If the user already has a playlist with this name, an error message is received. The playlist will initially have its visibility set to public.
 
+#### Possible messages
+      1.Playlist created successfully.
+      2.A playlist with the same name already exists.
 
+Example input for createPlaylist:
+```json
+{
+    "command": "createPlaylist",
+    "username": "alice22",
+    "timestamp": 5,
+    "playlistName": "Playlist bengos"
+}
+```
+Example output for createPlaylist:
+```json
+{
+    "command" : "createPlaylist",
+    "user" : "alice22",
+    "timestamp" : 5,
+    "message" : "Playlist created successfully."
+}
+```
 
+### SwitchVisibility
 
+A playlist can be either public or private. When it is created, it is public, meaning it is visible to all users. If this command is executed, the playlist will become private if it was public, or public if it was private.
 
+#### Possible messages
+      1.Visibility status updated successfully to {true/false}.
+      2.The specified playlist ID is too high.
 
+Example input for switchVisibility:
+```json
+{
+    "command" : "switchVisibility",
+    "user" : "carol19",
+    "timestamp" : 1130,
+    "message" : "The specified playlist ID is too high."
+}
+```
+Example output for switchVisibility:
+```json
+{
+    "command": "switchVisibility",
+    "username": "carol19",
+    "timestamp": 1130,
+    "playlistId": 100
+}
+```
+### FollowPlaylist
 
+After selecting a playlist via the search bar, a user can follow it. If the user is already following the playlist, the command will result in unfollowing it. A playlist not owned by the current user is accessible only if it is public.
 
+#### Possible messages
+      1.Playlist followed successfully.
+      2.Playlist unfollowed successfully.
+      3.The selected source is not a playlist.
+      4.Please select a source before following or unfollowing.
+      5.You cannot follow or unfollow your own playlist.
 
+Example input for followPlaylist:
+```json
+{
+    "command": "follow",
+    "username": "carol19",
+    "timestamp": 1050
+}
+```
+Example output for followPlaylist:
+```json
+{
+    "command" : "follow",
+    "user" : "carol19",
+    "timestamp" : 1050,
+    "message" : "Please select a source before following or unfollowing."
+}
+```
 
+> **Note:** This command can only be executed after the user has issued the select command.
 
+### ShowPlaylists
 
+This command will display all the songs from all the playlists owned by the user.
 
+Example input for ShowPlaylists:
+```json
+{
+    "command": "showPlaylists",
+    "username": "alice22",
+    "timestamp": 65
+}
+```
+Example output for ShowPlaylists:
+```json
+{
+    "command" : "showPlaylists",
+    "user" : "alice22",
+    "timestamp" : 65,
+    "result" : [ {
+       "name" : "Playlist bengos",
+       "songs" : [ "The Unforgiven" ],
+       "visibility" : "public",
+       "followers" : 0
+    } ]
+}
+```
+## User Statistics
 
+###  ShowPreferredSongs
 
+A list of all the songs that the user has liked will be displayed.
 
+Example input for ShowPreferredSongs:
+```json
+{
+    "command": "showPreferredSongs",
+    "username": "carol19",
+    "timestamp": 1000
+}
+```
+Example output for ShowPreferredSongs:
+```json
+{
+  "command" : "showPreferredSongs",
+  "user" : "carol19",
+  "timestamp" : 1000,
+  "result" : [ "Bohemian Rhapsody" ]
+}
+```
+## General Statistics 
 
+### GetTop5Songs
 
+A list will be displayed with the top 5 songs in the library that have received the most likes from users. In case of a tie, the songs are chosen based on their order in the library.
 
+Example input for GetTop5Songs:
+```json
+{
+    "command": "getTop5Songs",
+    "timestamp": 3300
+}
+```
+Example output for GetTop5Songs:
+```json
+{
+    "command" : "getTop5Songs",
+    "user" : null,
+    "timestamp" : 3300,
+    "result" : [ "Bohemian Rhapsody", "Shape of You", "Don't", "Stairway to Heaven", "Money Trees" ]
+}
+```
 
+### GetTop5Playlists
+
+A list will be displayed with the top 5 public playlists that have received the most follows from users. In case of a tie, the oldest playlist is chosen. It is guaranteed that no two playlists were created at the same time.
+
+Example input for GetTop5Playlists:
+```json
+{
+    "command": "getTop5Playlists",
+    "timestamp": 2560
+}
+```
+Example output for GetTop5Playlists:
+```json
+{
+    "command" : "getTop5Playlists",
+    "user" : null,
+    "timestamp" : 2560,
+    "result" : [ "My first playlist", "Just for fun", "Felt cute might delete later", "Listen on repeat" ]
+}
+```
