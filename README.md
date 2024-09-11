@@ -124,12 +124,66 @@ Example input for a user:
     "city": "Los Angeles"
 }
 ```
-      ## Timestamp
+## Timestamp
       
 To simulate the real-time aspect of the application, commands have a field called "timestamp" that indicates the second at which they were executed relative to the start of the test (time t0). Each command is executed instantaneously at a specific moment in time. The time is shared among all users and progresses uniformly, regardless of the commands received. Thus, it is not possible to have a command with timestamp "30" for "user1" followed by a command with timestamp "20" for "user2" (a command with timestamp "t" means that all users are at time "t"). Additionally, the simulation must account for what happens between these time moments, such as the state of the current user's player (which track it is on, whether playback has stopped, etc.).
 
 ### Seach bar commands
-      ## Search
+## Search
 Searches are performed based on filters to find a song, playlist, or podcast. Songs are searched within the library, and playlists are only accessible if they belong to the user who issued the command or are public. A list of the top 5 results is returned, and if there are fewer than 5 results, all obtained results are returned. Filters can vary from one search command to another (some fields may be missing), but each search command must specify at least one filter. Additionally, searches are performed from the perspective of the user, meaning that two users can have different results when searching for the same item.
 
 > **Note:** When this command is executed, the source that was loaded in the player is removed. Therefore, after a search, regardless of the results returned, the player will not play anything.
+
+Example input for search song:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 10,
+    "type": "song",
+    "filters": {
+      "name": "Sta"
+    }
+}
+```
+Example input for search playlist:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 63,
+    "type": "playlist",
+    "filters": {
+      "owner": "alice22"
+    }
+}
+```
+Example input for search podcast:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 100,
+    "type": "podcast",
+    "filters": {
+      "name": "The"
+    }
+}
+```
+Example output for search:
+```json
+{
+    "command" : "search",
+    "user" : "alice22",
+    "timestamp" : 10,
+    "message" : "Search returned 3 results",
+    "results" : [ "Stairway to Heaven", "Start Me Up", "Stargazing" ]
+}
+```
+## Select
+Select from list one of the options obtained from the last search if it generated at least one result. Additionally, if a result with an index higher than the last result is selected, an error is returned. The first result has an index of 1.
+
+# Possible messages
+      1.Successfully selected {track_name}.
+      2.Please conduct a search before making a selection.
+      3.The selected ID is too high.
