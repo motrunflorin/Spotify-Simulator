@@ -6,3 +6,11 @@ Folders stage1 and stage2 have the inputs, checkers and refs for each stage, may
 
 ## Overview
 This project involves implementing a Spotify-like application that simulates user interactions with the platform. Actions are simulated via commands from input files. You act as an admin overseeing all user activities, generating reports, and simulating real-time actions on the platform.
+
+## Entities
+
+### Audio File
+The application works with two types of audio files:
+- Song
+- Podcast Episode
+
