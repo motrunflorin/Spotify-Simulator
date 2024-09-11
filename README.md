@@ -770,6 +770,7 @@ Example input for changePage:
 ```
 Example output for changePage:
 ```json
+{
     "command" : "changePage",
     "user" : "alice22",
     "timestamp" : 100,
