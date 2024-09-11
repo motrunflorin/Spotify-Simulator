@@ -265,6 +265,7 @@ Example output for playPause:
 ### Repeat
 
 Initially, repeat is in the state where nothing is repeated. Depending on the type of content currently being played, the repeat command cycles through different states. Essentially, from state 0 it transitions to state 1, from state 1 to state 2, and from state 2 back to state 0, with the effective state depending on the type of content being played by the player at that moment. Thus, we have the following cases:
+
       - If we are playing something from a playlist, the states are:
             - 0 - no repeat
             - 1 - repeat all → after finishing all the songs in the list, it starts again with the first song
