@@ -808,6 +808,176 @@ With this command, we will see the page that a specific user is on. We will use 
       - Host page
       Podcasts:\n\t[podcastname1:\n\t[episodename1 - episodedescription1, episodename2 - episodedescription2, … ], …]\n\nAnnouncements\n\t[announcementname1\n\tannouncementdescription1\n, announcementname2\n\tannouncementdescription2\n, …]
 
+Example input for printCurrentPage:
+```json
+{
+    "command": "printCurrentPage",
+    "username": "alice22",
+    "timestamp": 420,
+}
+```
+Example output for printCurrentPage:
+```json
+{
+    "command": "printCurrentPage",
+    "user": "alice22",
+    "timestamp": 420,
+    "message": "Liked songs:\n\t[songname1, songname2]\n\nFollowed Playlists:\n\t[playlistname1 - owner1, playlistname2 - owner2, ...]"
+}
+```
+## New Entities Compared to the First Stage
+
+### Users
+
+Two New Types of Users Are Added, Each with Specific Commands Presented Below:
+
+      - artist - user who can add albums and has their own page within this stage
+      - host- user who can add podcasts and has their own page within this stage
+
+### Audio File Collections
+
+An album is a collection of songs created by an artist. Regular users can search for and listen to albums using the select and load functions. Songs cannot be added to the application outside of an album.
+
+### Search bar
+
+Search Bar Updates:
+
+      - Album:
+            - by name → checks if the album's name starts with the specified text
+            - by owner → checks if the artist who created the album's name starts with the specified text
+            - by description → checks if the album's description starts with the specified text
+            
+      - Artist:
+            - by username → checks if the artist's name starts with the specified text
+      
+      - Host :
+            - by username → checks if the host's name starts with the specified text
+
+A normal user will now be able to search for an artist or a host and apply the "select" command on them, which will redirect them to the entry page of the selected item from the search results. The “item number” error is maintained in this case, and the results will be returned as a list of Strings consisting of the names of the resulting artists/hosts. After selection, the results will be cleared, just as in the first phase.
+
+### Music player
+
+Now, a normal user will be able to select an album and then load this type of collection. The album must support the same functionalities as a playlist, including repeat and shuffle.
+
+## Search Bar Commands
+
+### Search
+
+The functionality to search for an album, an artist, or a host is added.
+
+Example input for search album:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 100,
+    "type": "album",
+    "filters": {
+      "name": "Th",
+      "owner": "U",
+      "description": "Best"
+    }
+}
+```
+Example input for search artist:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 100,
+    "type": "artist",
+    "filters": {
+      "name": "The"
+    }
+}
+```
+Example input for search host:
+```json
+{
+    "command": "search",
+    "username": "alice22",
+    "timestamp": 100,
+    "type": "host",
+    "filters": {
+      "name": "The"
+    }
+}
+```
+Example output for search:
+```json
+{
+    "command" : "search",
+    "user" : "alice22",
+    "timestamp" : 10,
+    "message" : "Search returned 3 results",
+    "results" : [ "This Is Why", "The Mad Stone", "The Eminem Show" ]
+}
+```
+## Player
+
+A normal user's player can have an album as the audio source and can use all the commands available for playlists.
+
+### Admin commands
+
+#### AddUser
+
+As an admin, we can add new users, including normal users, artists, or hosts. This will be done with this command, containing only the basic details for a user, allowing each user to later change their details, such as adding an album for an artist. Existing normal users in the tests will not be modified, and all artists and hosts will be added during each test.
+
+##### Possible messages:
+      - The username <username> is already taken.
+      - The username <username> has been added successfully.
+
+Example input for addUser:
+```json
+{
+    "command": "addUser",
+    "timestamp": 100,
+    "type": "user/artist/host",
+    "username": "anaaremere",
+    "age": 20,
+    "city": "New York"
+}
+```
+Example output for addUser:
+```json
+{
+    "command" : "addUser",
+    "timestamp" : 100,
+    "user": "anaaremere",
+    "message" : "The username anaaremere has been added successfully"
+}
+```
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
