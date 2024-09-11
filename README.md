@@ -3,9 +3,10 @@
 Package page should be in package app (I didn't realised at that time).
 Folders stage1 and stage2 have the inputs, checkers and refs for each stage, maybe should be renamed as etapa1 and etapa2 when used.
 
+# STAGE 1
 
 ## Overview
-This project involves implementing a Spotify-like application that simulates user interactions with the platform. Actions are simulated via commands from input files. You act as an admin overseeing all user activities, generating reports, and simulating real-time actions on the platform.
+This stage involves implementing a Spotify-like application that simulates user interactions with the platform. Actions are simulated via commands from input files. You act as an admin overseeing all user activities, generating reports, and simulating real-time actions on the platform.
 
 ## Entities
 
@@ -128,7 +129,6 @@ Example input for a user:
       
 To simulate the real-time aspect of the application, commands have a field called "timestamp" that indicates the second at which they were executed relative to the start of the test (time t0). Each command is executed instantaneously at a specific moment in time. The time is shared among all users and progresses uniformly, regardless of the commands received. Thus, it is not possible to have a command with timestamp "30" for "user1" followed by a command with timestamp "20" for "user2" (a command with timestamp "t" means that all users are at time "t"). Additionally, the simulation must account for what happens between these time moments, such as the state of the current user's player (which track it is on, whether playback has stopped, etc.).
 
-# STAGE 1
 ## Seach bar commands
 ### Search
 Searches are performed based on filters to find a song, playlist, or podcast. Songs are searched within the library, and playlists are only accessible if they belong to the user who issued the command or are public. A list of the top 5 results is returned, and if there are fewer than 5 results, all obtained results are returned. Filters can vary from one search command to another (some fields may be missing), but each search command must specify at least one filter. Additionally, searches are performed from the perspective of the user, meaning that two users can have different results when searching for the same item.
@@ -716,3 +716,39 @@ Example output for GetTop5Playlists:
 }
 ```
 # STAGE 2
+
+## Overview
+
+For this stage, you will be implementing an application similar in functionality to Spotify, now including artists and hosts (described below). You will simulate various actions performed by users using commands received from input files. The perspective remains that of an admin overseeing users and application elements.
+
+> **Note:** The commands and the format of input and output from Stage I remain unchanged. Everything implemented in Stage I will still be valid in this current stage. In this stage, you will need to extend the solution from Stage I with new functionalities.
+
+## Page System
+
+With the database in place, we can now simulate a minimal graphical interface by compartmentalizing the application into different pages that a regular user can be on at any given time. The following types of pages will be available for an individual user:
+
+      - HomePage - The page where any user is when they are first added to the platform. Here, the user will be able to see static “recommendations,” meaning they will be able to view the top 5 songs they have liked based on the number of likes and the top 5 playlists followed by the total number of likes on all the songs in those playlists.
+      - LikedContentPage - LikedContentPage - The page where any user can view all the songs and playlists they have liked/followed.
+
+These two pages are accessible from anywhere within the application and can be accessed at any time, except when the user is offline.
+
+### Artist page
+
+Each artist will have their own page when added to the platform and will be able to manage certain details about it. A regular user can navigate to the artist’s page by searching for them and then selecting them from the search results, which will clear the search results list. The user will be able to view the artist’s albums, merchandise, and events on this page. Any changes made by the artist to albums, merchandise, and events will be reflected at the same time for all users who are on the artist’s page.
+
+### Host page
+
+Similar to the artist page, a regular user will be able to view the host’s podcasts and announcements on this page.
+
+### Commands for the Page System
+
+Only regular users will be able to use the page system commands!
+
+#### ChangePage
+
+##### Possible messages:
+      1.<username> accessed <next page> successfully.
+      2.<username> is trying to access a non-existent page.
+
+
+
