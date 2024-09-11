@@ -17,7 +17,6 @@ The application works with two types of audio files:
 Each file type provides different interaction capabilities for the user.\
 Example input for a song:
 ```json
-
 {
       "name": "Shape of You",
       "duration": 233,
@@ -32,5 +31,7 @@ Example input for a song:
       "releaseYear": 2017,
       "artist": "Ed Sheeran"
 }
+'''
+jhkjhkh
 
 
