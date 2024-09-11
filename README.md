@@ -16,20 +16,21 @@ The application works with two types of audio files:
 
 Each file type provides different interaction capabilities for the user.\
 Example input for a song:
+```json
 
 {
-     > "name": "Shape of You",
-     > "duration": 233,
-     > "album": "Divide",
-     > "tags": [
-      >> "#pop",
-       >> "#mostlistenedthisyear",
-       >> "#spotify"
-     > ],
-     > "lyrics": "The club isn't the best place to find a lover, So the bar is where I go (mm-mm)",
-     > "genre": "Pop",
-     > "releaseYear": 2017,
-     > "artist": "Ed Sheeran"
+      "name": "Shape of You",
+      "duration": 233,
+      "album": "Divide",
+      "tags": [
+       "#pop",
+       "#mostlistenedthisyear",
+       "#spotify"
+      ],
+      "lyrics": "The club isn't the best place to find a lover, So the bar is where I go (mm-mm)",
+      "genre": "Pop",
+      "releaseYear": 2017,
+      "artist": "Ed Sheeran"
 }
 
 
