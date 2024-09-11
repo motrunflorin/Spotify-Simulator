@@ -87,3 +87,24 @@ Example input for a podcast:
    ]
 }
 ```
+### Search bar
+
+The search bar is used to search the library for a specific song, playlist, or podcast based on various filters:
+
+      - Songs:
+            - by name → Checks if the song's name starts with the specified text in the filter.
+            - by album → Checks if the song belongs to the specified album.
+            - by tags → Checks if the song has all the specified tags from a given list.
+            - by lyrics → Checks if the song contains the specified word or phrase.
+            - by genre → Checks if the song belongs to the specified musical genre.
+            - by release year → A string, e.g., “<2000”, “>2000”, checks if the release year is less than or greater than the specified year.
+            - by artist → Checks if the song was created by the specified artist.
+      - Playlists:
+            - by name → Checks if the playlist's name starts with the specified text.
+            - by owner → Checks if the playlist was created by the specified user.
+      - Podcast:
+            - by name → Checks if the podcast's name starts with the specified text.
+            - by owner → Checks if the podcast was created by the specified creator.
+
+For each type of search, at least one field will be specified. The order in which results are obtained depends on the position of the content in the list of those elements (i.e., in the list of songs, the list of podcasts, or the lists of playlists for each user).
+      
