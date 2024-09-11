@@ -90,7 +90,6 @@ Example input for a podcast:
 ### Search bar
 
 The search bar is used to search the library for a specific song, playlist, or podcast based on various filters:
-
       - Songs:
             - by name → Checks if the song's name starts with the specified text in the filter.
             - by album → Checks if the song belongs to the specified album.
