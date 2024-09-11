@@ -947,44 +947,527 @@ Example output for addUser:
     "message" : "The username anaaremere has been added successfully"
 }
 ```
+#### DeleteUser
 
+As an admin, we can delete a user, and all their associations with other entities in the application must also be deleted or updated. A user of any type cannot be deleted if another user is currently interacting with any of their entities. For example, if we want to delete a host, and a user is currently listening to one of their podcasts, the host cannot be deleted. Handling cases for this type of command is at your discretion.
+
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> can't be deleted.
+      - <username> was successfully deleted.
+
+Example input for deleteUser:
+```json
+{
+    "command": "deleteUser",
+    "username": "alice22",
+    "timestamp": 120
+}
+```
+Example output for deleteUser:
+```json
+{
+  "command" : "deleteUser",
+  "user" : "alice22",
+  "timestamp" : 120,
+  "message" : "alice22 was successfully deleted."
+}
+```
+
+#### ShowAlbums
+
+In this command, all albums of an artist will be displayed. It is guaranteed that the username provided in the input is a valid artist and will not be invalid. For each album, the name of the album and a list of the names of the songs in the album will be shown.
+
+Example input for showAlbums:
+```json
+{
+    "command": "showAlbums",
+    "username": "Ed Sheeran",
+    "timestamp": 400,
+}
+```
+Example output for showAlbums:
+```json
+{
+    "command": "showAlbums",
+    "user": "Ed Sheeran",
+    "timestamp": 400,
+    "result": [ {
+       "name": "Divide",
+       "songs": [ "Shape of You", "Happier", "Castle on the Hill" ]
+    } ]
+}
+```
+#### ShowPodcasts
+
+In this command, all podcasts of a host will be displayed. It is guaranteed that the username provided in the input is a valid host and will not be invalid. For each podcast, the name of the podcast and a list of the names of the episodes in the podcast will be shown.
+
+Example input for showPodcasts:
+```json
+{
+    "command": "showPodcasts",
+    "username": "Joe Rogan",
+    "timestamp": 420,
+}
+```
+Example output for showPodcasts:
+```json
+{
+    "command": "showPodcasts",
+    "user": "Joe Rogan",
+    "timestamp": 420,
+    "result": [ {
+       "name": "The Joe Rogan Experience",
+       "episodes": [ "Elon Musk Returns", "Jordan Peterson", "Neil deGrasse Tyson", "Elon Musk on Mars", "The Art of MMA" ]
+    } ]
+}
+```
+### Artist commands
+
+#### AddAlbum
+
+This command allows an artist to add a new album to the application. The artist specifies the album's details, including the name, release year, description, and the list of songs that make up the album.
+
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not an artist.
+      - <username> has another album with the same name.
+      - <username> has the same song at least twice in this album.
+      - <username> has added new album successfully.
+
+Example input for addAlbum:
+```json
+{
+    "command": "addAlbum",
+    "username": "Ed Sheeran",
+    "timestamp": 160,
+    "name": "Album1",
+    "releaseYear": 2023,
+    "description": "Primul album bro!"
+    "songs": [
+      {
+        "name": "Shape of You",
+        "duration": 233,
+        "album": "Divide",
+        "tags": [
+          "#pop",
+          "#mostlistenedthisyear",
+          "#spotify"
+        ],
+        "lyrics": "The club isn't the best place to find a lover, So the bar is where I go (mm-mm)",
+        "genre": "Pop",
+        "releaseYear": 2017,
+        "artist": "Ed Sheeran"
+      },
+      {
+        "name": "Don't",
+        "duration": 219,
+        "album": "x",
+        "tags": [
+          "#pop",
+          "#relationship",
+          "#spotify"
+        ],
+        "lyrics": "I met this girl late last year, She said, 'Don't you worry if I disappear",
+        "genre": "Pop",
+        "releaseYear": 2014,
+        "artist": "Ed Sheeran"
+      }
+    ]
+}
+```
+Example output for addAlbum:
+```json
+{
+    "command": "addAlbum",
+    "user": "Ed Sheeran",
+    "timestamp": 160,
+    "name": "Ed Sheeran has added new album successfully."
+}
+```
+#### RemoveAlbum
+
+An artist can delete one of their albums. If an album with that name exists, it can be deleted if there are no regular users with the album or any of its songs currently loaded (it does not matter if the user is simply on the artist's page) or if there is no playlist containing a song from the album.
+
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not an artist.
+      - <username> doesn't have an album with the given name.
+      - <username> can't delete this album.
+      - <username> deleted the album successfully.
+
+Example input for removeAlbum:
+```json
+{
+    "command": "removeAlbum",
+    "username": "Ed Sheeran",
+    "timestamp": 180,
+    "name": "Album1"
+}
+```
+Example output for removeAlbum:
+```json
+{
+    "command": "removeAlbum",
+    "username": "Ed Sheeran",
+    "timestamp": 180,
+    "message": "Ed Sheeran deleted the album successfully."
+}
+```
+#### AddEvent
+
+The artist can add an event. The event will have a description and a date, which is considered invalid in the following situations:
       
+      - The correct format is dd-mm-yyyy, but in the input, it might be invalid, in which case you need to display an error.
+      - For February, the day is greater than 28 or, in general, greater than 31. The month is greater than 12, or the year is less than 1900 or greater than 2023.
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not an artist.
+      - <username> has another event with the same name.
+      - Event for <username> does not have a valid date.
+      - <username> has added new event successfully.
 
+Example input for addEvent:
+```json
+{
+    "command": "addEvent",
+    "username": "Ed Sheeran",
+    "timestamp": 200,
+    "name": "Event1",
+    "description": "Primul Event adaugat!",
+    "date": "01-01-2022"
+}
+```
+Example output for addEvent:
+```json
+{
+    "command": "addEvent",
+    "user": "Ed Sheeran",
+    "timestamp": 200,
+    "message": "Ed Sheeran has added new event successfully." 
+}
+```
+#### RemoveEvent
 
+This command allows an artist to delete an existing event.
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not an artist.
+      - <username> doesn't have an event with the given name.
+      - <username> deleted the event successfully.
 
+Example input for removeEvent:
+```json
+{
+    "command": "removeEvent",
+    "username": "Ed Sheeran",
+    "timestamp": 220,
+    "name": "Event1"
+}
+```
+Example output for removeEvent:
+```json
+{
+    "command": "removeEvent",
+    "user": "Ed Sheeran",
+    "timestamp": 220,
+    "message": "Ed Sheeran deleted the event successfully."
+}
+```
+#### AddMerch
 
+The artist has the ability to add merchandise items to the application. These items include descriptions and prices.
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not an artist.
+      - <username> has merchandise with the same name.
+      - Price for merchandise can not be negative.
+      - <username> has added new merchandise successfully.
 
+Example input for addMerch:
+```json
+{
+    "command": "addMerch",
+    "username": "Ed Sheeran",
+    "timestamp": 240,
+    "name": "Merch1",
+    "description": "Primul Merch adaugat!",
+    "price": 100
+}
+```
+Example output for addMerch:
+```json
+{
+    "command": "addMerch",
+    "user": "Ed Sheeran",
+    "timestamp": 240,
+    "message": "Ed Sheeran has added new merchandise successfully."
+}
+```
 
+### Host commands
 
+#### AddPodcast
 
+This command allows a host to add a new podcast to the application. The host specifies the podcast details, including the name and the list of episodes with the respective details for each episode (name, duration, description).
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not a host.
+      - <username> has another podcast with the same name.
+      - <username> has the same episode in this podcast.
+      - <username> has added new podcast successfully.
+      
+Example input for addPodcast:
+```json
+{
+    "command": "addPodcast",
+    "username": "Mike",
+    "timestamp": 260,
+    "name": "Podcast1",
+    "episodes": [
+          {
+            "name": "Elon Musk Returns",
+            "duration": 11927,
+            "description": "Elon Musk, CEO of SpaceX and Tesla, returns to discuss various topics."
+          },
+          {
+            "name": "Jordan Peterson",
+            "duration": 9916,
+            "description": "Dr. Jordan Peterson joins Joe to discuss psychology, philosophy, and current events."
+          }
+      ]
+}
+```
+Example output for addPodcast:
+```json
+{
+    "command": "addPodcast",
+    "user": "Mike",
+    "timestamp": 260,
+    "message": "Mike has added new podcast successfully."
+}
+```
+#### RemovePodcast
 
+Allows a host to delete an existing podcast. If there is a podcast with that name, it can be deleted if no regular user currently has the podcast loaded (it does not matter if the user is only on the host's page).
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not a host.
+      - <username> doesn't have a podcast with the given name.
+      - <username> can't delete this podcast.
+      - <username> deleted the podcast successfully.
 
+Example input for removePodcast:
+```json
+{
+    "command": "removePodcast",
+    "username": "Mike",
+    "timestamp": 280,
+    "name": "Podcast1"
+}
+```
+Example output for removePodcast:
+```json
+{
+    "command": "removePodcast",
+    "user": "Mike",
+    "timestamp": 280,
+    "message": "Mike deleted the podcast successfully."
+}
+```
 
+#### AddAnnouncement
 
+The host can add announcements to inform the audience about various topics or events. These announcements will have a name and a description.
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not a host.
+      - <username> has already added an announcement with this name.
+      - <username> has successfully added new announcement.
+      
+Example input for addAnnouncement:
+```json
+{
+    "command": "addAnnouncement",
+    "username": "Mike",
+    "timestamp": 300,
+    "name": "Announcement1",
+    "description": "Primul anunt adaugat!"
+}
+```
+Example output for addAnnouncement:
+```json
+{
+    "command": "addAnnouncement",
+    "user": "Mike",
+    "timestamp": 300,
+    "message": "Mike has successfully added new announcement."
+}
+```
 
+#### RemoveAnnouncement
 
+This command allows a host to delete an existing announcement.
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not a host.
+      - <username> has no announcement with the given name.
+      - <username> has successfully deleted the announcement.
 
+Example input for removeAnnouncement:
+```json
+{
+    "command": "removeAnnouncement",
+    "username": "Mike",
+    "timestamp": 320,
+    "name": "Announcement1"
+}
+```
+Example output for removeAnnouncement:
+```json
+{
+    "command": "removeAnnouncement",
+    "user": "Mike",
+    "timestamp": 320,
+    "message": "Mike has successfully deleted the announcement."
+}
+```
 
+### Normal user commands
 
+#### SwitchConnectionStatus
 
+All regular users will initially be considered online, including when they are added to the platform, and will have access to all their commands, including those from Phase I. This command will switch a regular user from online mode to offline mode, or vice versa, stopping any access to the platform. The user will not be able to use other commands related to regular users, except for those related to data accessible by admins: playlists, liked songs, and preferred genres. When a user is offline, time will no longer be counted for them, and their player will be stopped until they come back online. If the user is offline at the time of using any of the commands below, the message will be “<username> is offline.”
 
+List of Commands Disabled in Offline Mode:
 
+- search
+- select
+- load
+- playPause
+- repeat
+- shuffle
+- forward
+- backward
+- like
+- next
+- prev
+- createPlaylist
+- addRemoveInPlaylist
+- switchVisibility
+- follow
+- changePage
+- printCurrentPage
 
+##### Possible messages:
+      - The username <username> doesn't exist.
+      - <username> is not a normal user.
+      - <username> has changed status successfully.
 
+Example input for switchConnectionStatus:
+```json
+{
+    "command": "switchConnectionStatus",
+    "username": "Mike",
+    "timestamp": 320,
+}
+```
+Example output for switchConnectionStatus:
+```json
+{
+    "command": "switchConnectionStatus",
+    "user": "Mike",
+    "timestamp": 320,
+    "message": "Mike has changed status successfully."
+}
+```
 
+## General Statistics
 
+### getTop5Albums
 
+This command will display the names of the top 5 most appreciated albums in the application based on the number of likes. The number of likes for an album is considered to be the sum of all the likes for the songs within that album. If there are fewer than 5 albums, all will be displayed. In case of a tie in the number of likes, albums will be listed in lexicographical order.
 
+Example input for getTop5Albums:
+```json
+{
+    "command": "getTop5Albums",
+    "timestamp": 540
+}
+```
+Example output for getTop5Albums:
+```json
+{
+    "command": "getTop5Albums",
+    "timestamp": 540,
+    "result": [ "Divide", "Led Zeppelin IV", "Hot Space", "Aerosmith", "Vol. 3... Life and Times of S. Carter" ]
+}
+```
 
+### getTop5Artists
 
+This command will display the names of the top 5 most appreciated artists in the application based on the number of likes. The number of likes for an artist is calculated as the sum of all likes for the songs in all their albums. If there are fewer than 5 artists, all will be displayed.
 
+Example input for getTop5Artists:
+```json
+{
+    "command": "getTop5Artists",
+    "timestamp": 560
+}
+```
+Example output for getTop5Artists:
+```json
+{
+    "command": "getTop5Artists",
+    "timestamp": 560,
+    "result": [ "Jay Z", "Meek Mill", "The Rolling Stones", "Led Zeppelin", "Maroon 5" ]
+}
+```
 
+### getAllUsers
 
+This command will display the names of all users in the application. The order of display is as follows: regular users, artists, and hosts.
+
+Example input for getAllUsers:
+```json
+{
+    "command": "getAllUsers",
+    "timestamp": 580
+}
+```
+Example output for getAllUsers:
+```json
+{
+    "command": "getAllUsers",
+    "timestamp": 580,
+    "result": [ "alice22", "bob35", "Ed Sheeran", "Mike" ]
+}
+```
+
+### getOnlineUsers
+
+This command will display the names of all online regular users in the application.
+
+Example input for getOnlineUsers:
+```json
+{
+    "command": "getOnlineUsers",
+    "timestamp": 600
+}
+```
+Example output for getOnlineUsers:
+```json
+{
+    "command": "getOnlineUsers",
+    "timestamp": 600,
+    "result": [ "alice22", "bob35" ]
+}
+```
 
