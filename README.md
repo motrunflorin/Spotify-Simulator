@@ -45,6 +45,7 @@ There are three types of audio collections:
 - library
 - playlist
 - podcast
+
 The Library contains all songs available on the platform, accessible to all users.\
 Playlists are user-created collections of songs and can be either public or private. They contain audio files from the library and are based on user preferences.\
 A podcast is a collection of several related episodes. All podcasts will be specified in the input file and will be available in the library from the start of the simulation. The episodes are ordered according to the initial position specified in the input.\
