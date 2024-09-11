@@ -1,6 +1,6 @@
 # Project: Spotify-like Application
 
-Package page should be in package app (I didn't realised at that time).\
+Package page should be in package app (I didn't realised at that time).
 Folders stage1 and stage2 have the inputs, checkers and refs for each stage, maybe should be renamed as etapa1 and etapa2 when used.
 
 
@@ -14,7 +14,7 @@ The application works with two types of audio files:
 - Song
 - Podcast Episode
 
-Each file type provides different interaction capabilities for the user.\
+Each file type provides different interaction capabilities for the user.
 
 Example input for a song:
 ```json
@@ -47,11 +47,11 @@ There are three types of audio collections:
 - playlist
 - podcast
 
-The Library contains all songs available on the platform, accessible to all users.\
+The Library contains all songs available on the platform, accessible to all users.
 
-Playlists are user-created collections of songs and can be either public or private. They contain audio files from the library and are based on user preferences.\
+Playlists are user-created collections of songs and can be either public or private. They contain audio files from the library and are based on user preferences.
 
-A podcast is a collection of several related episodes. All podcasts will be specified in the input file and will be available in the library from the start of the simulation. The episodes are ordered according to the initial position specified in the input.\
+A podcast is a collection of several related episodes. All podcasts will be specified in the input file and will be available in the library from the start of the simulation. The episodes are ordered according to the initial position specified in the input.
 
 Example input for a podcast:
 ```json
