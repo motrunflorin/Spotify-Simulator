@@ -749,6 +749,72 @@ Only regular users will be able to use the page system commands!
 ##### Possible messages:
       1.<username> accessed <next page> successfully.
       2.<username> is trying to access a non-existent page.
+      
+Example input for changePage:
+```json
+{
+    "command": "changePage",
+    "username": "alice22",
+    "timestamp": 100,
+    "nextPage": "Home"
+}
+```
+Example input for changePage:
+```json
+{
+    "command": "changePage",
+    "username": "alice22",
+    "timestamp": 100,
+    "nextPage": "LikedContent"
+}
+```
+Example output for changePage:
+```json
+    "command" : "changePage",
+    "user" : "alice22",
+    "timestamp" : 100,
+    "message" : "alice22 accessed Home successfully."
+}
+```
+Example output for changePage:
+```json
+{
+    "command" : "changePage",
+    "user" : "alice22",
+    "timestamp" : 100,
+    "message" : "alice22 accessed LikedContent successfully."
+}
+```
+Example output for changePage:
+```json
+{
+    "command" : "changePage",
+    "user" : "alice22",
+    "timestamp" : 100,
+    "message" : "alice22 is trying to access a non-existent page."
+}
+```
+
+#### PrintCurrentPage
+
+With this command, we will see the page that a specific user is on. We will use a string format for each page, as follows:
+
+      - HomePage
+      Liked songs:\n\t[songname1, songname2, …]\n\nFollowed playlists:\n\t[playlistname1, playlistname2, …]
+      - LikedContentPage
+      Liked Songs:\n\t[songname1 - songartist1, songname2 - songartist2, …]\n\nFollowed Playlists:\n\t[playlistname1 - owner1, playlistname2 - owner2, …]
+      - Artist page
+      Albums:\n\t[albumname1, albumname2, …]\n\nMerch:\n\t[merchname1 - merchprice1:\n\tmerchdescription1, merchname2 - merchprice2:\n\tmerchdescription2, …]\n\nEvent:\n\t[eventname1 - eventdate1:\n\teventdescription1, eventname2 - eventdate2:\n\teventdescription2, …]
+      - Host page
+      Podcasts:\n\t[podcastname1:\n\t[episodename1 - episodedescription1, episodename2 - episodedescription2, … ], …]\n\nAnnouncements\n\t[announcementname1\n\tannouncementdescription1\n, announcementname2\n\tannouncementdescription2\n, …]
+
+
+
+
+
+
+
+
 
 
 
